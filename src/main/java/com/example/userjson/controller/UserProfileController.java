@@ -1,5 +1,6 @@
 package com.example.userjson.controller;
-
+import java.util.HashMap;
+import java.util.Map;
 import com.example.userjson.client.SoapAuthClient;
 import com.example.userjson.model.UserProfile;
 import com.example.userjson.repository.UserProfileRepository;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "*")   // Frontend-ийн хүсэлтийг зөвшөөрнө
+@CrossOrigin(origins = "*")  
 @RequiredArgsConstructor
 public class UserProfileController {
 
@@ -82,6 +83,38 @@ public class UserProfileController {
             existing.setPhone(updated.getPhone());
             return ResponseEntity.ok(repo.save(existing));
         }).orElse(ResponseEntity.notFound().build());
+    }
+    
+    @PutMapping("/update-profile-image")
+    public ResponseEntity<?> updateProfileImage(
+            @RequestBody Map<String, String> request,
+            @RequestHeader(value = "Authorization", required = false) String auth) {
+
+        ResponseEntity<?> authCheck = checkAuth(auth);
+        if (authCheck != null) return authCheck;
+
+        String imageUrl = request.get("profileImageUrl");
+        String username = request.get("username");
+
+        if (imageUrl == null || username == null) {
+            return ResponseEntity.badRequest().body("Missing imageUrl or username");
+        }
+
+        Optional<UserProfile> opt = repo.findByUsername(username);
+        if (opt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UserProfile profile = opt.get();
+        profile.setProfileImageUrl(imageUrl);
+        repo.save(profile);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Profile image updated");
+        response.put("imageUrl", imageUrl);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

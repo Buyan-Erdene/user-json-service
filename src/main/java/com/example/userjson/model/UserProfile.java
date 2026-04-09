@@ -5,12 +5,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-@Document(collection = "user_profiles")  // @Entity → @Document
+@Document(collection = "user_profiles")
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class UserProfile {
 
     @Id
-    private String id;  // Long → String (MongoDB ObjectId)
+    private String id;
 
     @Indexed(unique = true)
     private String username;
@@ -19,5 +19,5 @@ public class UserProfile {
     private String email;
     private String bio;
     private String phone;
-    private String profileImageUrl; // Spaces-ийн зураг URL (Lab07)
+    private String profileImageUrl;
 }

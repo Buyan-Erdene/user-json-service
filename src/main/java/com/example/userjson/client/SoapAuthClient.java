@@ -17,10 +17,11 @@ public class SoapAuthClient {
         request.setToken(token);
 
         try {
-            ValidateTokenResponse response = (ValidateTokenResponse) webServiceTemplate
-                .marshalSendAndReceive("http://localhost:8081/ws", request);
+            ValidateTokenResponse response = (ValidateTokenResponse) 
+                webServiceTemplate.marshalSendAndReceive(request);
             return response.isValid();
         } catch (Exception e) {
+            System.err.println("SOAP validation failed: " + e.getMessage());
             return false;
         }
     }

@@ -3,7 +3,6 @@
            targetNamespace="http://example.com/users"
            elementFormDefault="qualified">
 
-    <!-- Register -->
     <xs:element name="RegisterUserRequest">
         <xs:complexType>
             <xs:sequence>
@@ -23,7 +22,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Login -->
     <xs:element name="LoginUserRequest">
         <xs:complexType>
             <xs:sequence>
@@ -43,7 +41,6 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- ValidateToken -->
     <xs:element name="ValidateTokenRequest">
         <xs:complexType>
             <xs:sequence>

@@ -21,7 +21,12 @@ public class SoapClientConfig {
         WebServiceTemplate template = new WebServiceTemplate();
         template.setMarshaller(marshaller);
         template.setUnmarshaller(marshaller);
-        template.setDefaultUri("http://${SOAP_SERVICE_URL}/ws");  // env variable болгоно
+        String soapUrl = System.getenv("SOAP_SERVICE_URL");
+        if (soapUrl == null || soapUrl.isEmpty()) {
+            soapUrl = "http://localhost:8081/ws";
+        }
+        template.setDefaultUri(soapUrl);
+        
         return template;
     }
 
